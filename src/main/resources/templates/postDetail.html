@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Post Detail</title>
+</head>
+<body>
+
+<div th:if="${post != null}">
+    <h1 th:text="${post.title}"></h1>
+    <p th:text="${post.content}"></p>
+    <!-- 포스트 정보가 있을 때 처리할 내용 -->
+</div>
+<div th:unless="${post != null}">
+    <p>포스트를 찾을 수 없습니다.</p>
+    <!-- 포스트 정보가 없을 때 처리할 내용 -->
+</div>
+
+</body>
+</html>

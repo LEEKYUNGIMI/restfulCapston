@@ -21,6 +21,15 @@ public class MemberService {
         memberRepository.save(memberEntity);
     }
 
+    public MemberDTO findByEmail(String email){
+        Optional<MemberEntity> memberEmail = memberRepository.findByMemberEmail(email);
+        if (memberEmail.isPresent()){
+            return MemberDTO.toMemberDTO(memberEmail.get());
+        } else {
+            return null;
+        }
+    }
+
     public MemberDTO login(MemberDTO memberDTO){
         Optional<MemberEntity> byMemberEmail = memberRepository.findByMemberEmail(memberDTO.getMemberEmail());
 
@@ -55,8 +64,9 @@ public class MemberService {
         return memberDTOList;
     }
 
-    public  MemberDTO findById(Long id){
+    public MemberDTO findById(Long id){
         Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(id);
+
         if (optionalMemberEntity.isPresent()){
             return MemberDTO.toMemberDTO(optionalMemberEntity.get());
             //optional을 벗겨내서 entity -> dto변환
@@ -64,6 +74,9 @@ public class MemberService {
         else {
             return null;
         }
+
+       // return optionalMemberEntity.orElse(null);
+
     }
 
     public void deleteById(Long id){

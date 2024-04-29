@@ -1,6 +1,7 @@
 package com.example.laby.controller;
 
 import com.example.laby.dto.MemberDTO;
+import com.example.laby.entity.MemberEntity;
 import com.example.laby.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -60,6 +61,7 @@ public class MemberController {
     @GetMapping("/laby/{id}")
     public String findById(@PathVariable Long id , Model model){
         MemberDTO memberDTO = memberService.findById(id);
+        //MemberEntity memberEntity = memberService.findById(id);
         model.addAttribute("member",memberDTO);
         return "detail";
     }

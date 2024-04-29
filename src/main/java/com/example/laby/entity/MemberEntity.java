@@ -34,5 +34,14 @@ public class MemberEntity {
         return memberEntity;
     }
 
+    public MemberDTO toMemberDTO(){
+        MemberDTO memberDTO = new MemberDTO();
+        memberDTO.setId(this.id);
+        memberDTO.setMemberEmail(this.memberEmail);
+        memberDTO.setMemberName(this.memberName);
+        memberDTO.setMemberPassword(this.memberPassword);
+        return memberDTO;
+    }
+
 
 }
