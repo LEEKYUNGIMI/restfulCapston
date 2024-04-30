@@ -31,6 +31,8 @@ public class PostEntity {
     @Column
     private String content;
 
+    //private String imageUrl;
+
     @Column
     private LocalDateTime localDateTime = LocalDateTime.now();
 
@@ -40,6 +42,7 @@ public class PostEntity {
         postEntity.setMemberId(postDTO.getMemberId());
         postEntity.setTitle(postDTO.getTitle());
         postEntity.setContent(postDTO.getContent());
+        //postEntity.setImageUrl(postDTO.getImageUrl());
         postEntity.setLocalDateTime(postDTO.getLocalDateTime());
         if (postDTO.getMember() != null) {
             postEntity.setMember(MemberEntity.toMemberEntity(postDTO.getMember())); // MemberDTO를 MemberEntity로 변환하여 저장

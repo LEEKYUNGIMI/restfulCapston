@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h3>" <span th:text="${memberName}"></span> " 회원님 환영합니다 ! </h3>
+<h2>My Liked Posts:</h2>
+<ul>
+    <li th:each="postId : ${likedPostIds}">
+        <a th:href="@{'/laby/post/' + ${postId}}" th:text="'Post ID: ' + ${postId}"></a>
+    </li>
+</ul>
+</body>
+</html>

@@ -9,6 +9,11 @@
 <div th:if="${post != null}">
     <h1 th:text="${post.title}"></h1>
     <p th:text="${post.content}"></p>
+    <p>Liked by:</p>
+    <ul>
+        <!-- 좋아요를 누른 회원 목록 출력 -->
+        <li th:each="member : ${likedMembers}" th:text="${member.memberName}"></li>
+    </ul>
     <!-- 포스트 정보가 있을 때 처리할 내용 -->
 </div>
 <div th:unless="${post != null}">
