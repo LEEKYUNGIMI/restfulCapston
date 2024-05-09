@@ -6,11 +6,48 @@
 </head>
 <body>
 <h3>" <span th:text="${memberName}"></span> " 회원님 환영합니다 ! </h3>
-<h2>My Liked Posts:</h2>
+
+<h2>My Posts:</h2>
 <ul>
-    <li th:each="postId : ${likedPostIds}">
-        <a th:href="@{'/laby/post/' + ${postId}}" th:text="'Post ID: ' + ${postId}"></a>
+    <li th:each="post : ${userPosts}">
+        <p>
+            <span th:text="'Post ID: ' + ${post.id}"></span>
+            <a th:href="@{'/laby/post/' + ${post.id}}" th:text="'Post Link'"></a>
+            <!-- 수정 버튼 -->
+            <a th:href="@{'/laby/post/edit/' + ${post.id}}" th:text="'Edit'"></a>
+            <!-- 삭제 버튼 -->
+        <form th:action="@{'/laby/post/delete/' + ${post.id}}" method="post">
+            <input type="hidden" name="_method" value="DELETE" />
+            <button type="submit">Delete</button>
+        </form>
+        </p>
     </li>
 </ul>
+
+<h2>My Liked Posts:</h2>
+<ul>
+    <li th:each="postId : ${userLikes}">
+        <a th:href="@{'/laby/post/' + ${postId}}" th:text="'Post ID: ' + ${postId}"></a>
+        <form th:action="@{/laby/remove-heart}" method="post">
+            <input type="hidden" name="postId" th:value="${postId}">
+            <button type="submit">Remove Like</button>
+        </form>
+    </li>
+</ul>
+<h2>My Comment :</h2>
+<ul>
+    <li th:each="comment : ${userComments}">
+        <p>
+            <span th:text="'Comment ID: ' + ${comment.id}"></span>
+            <a th:href="@{'/laby/post/' + ${comment.postId}}" th:text="'Post Link'"></a>
+            <span th:text="'Content: ' + ${comment.comment}"></span>
+        <form th:action="@{'/laby/comment/delete/' + ${comment.id}}" method="post">
+            <input type="hidden" name="_method" value="DELETE" />
+            <button type="submit">Delete</button>
+        </form>
+        </p>
+    </li>
+</ul>
+
 </body>
 </html>

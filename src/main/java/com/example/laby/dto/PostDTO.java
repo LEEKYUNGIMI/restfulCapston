@@ -21,12 +21,16 @@ public class PostDTO {
     private Long memberId;
     private String title;
     private String content;
-   // private MultipartFile imageUrl;
+    //private MultipartFile image;
+    //private String imageURL;
+
+    private String image;
+    private String link;
+
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") // 초를 없애고 시, 분까지만 표시
     private LocalDateTime localDateTime;
-    //private MemberDTO member;
-    //private MemberEntity member;
+
     private MemberDTO member;
 
 
@@ -36,8 +40,11 @@ public class PostDTO {
         postDTO.setMemberId(postEntity.getMemberId());
         postDTO.setTitle(postEntity.getTitle());
         postDTO.setContent(postEntity.getContent());
+        //postDTO.setImageURL(postEntity.getImageUrl());
         //postDTO.setImageUrl(postEntity.getImageUrl());
+        postDTO.setImage(postEntity.getImage());
         postDTO.setLocalDateTime(postEntity.getLocalDateTime());
+        postDTO.setLink(postEntity.getLink());
         return postDTO;
     }
 

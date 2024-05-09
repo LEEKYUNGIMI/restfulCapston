@@ -11,4 +11,6 @@ public interface HeartRepository extends JpaRepository<HeartEntity, Long> {
 
         List<HeartEntity> findByPostId(Long postId);
         List<HeartEntity> findByMemberId(Long memberId);
+
+        void deleteByMemberIdAndPostId(Long memberId, Long postId);
 }

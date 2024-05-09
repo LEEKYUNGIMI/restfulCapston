@@ -9,11 +9,48 @@
 <div th:if="${post != null}">
     <h1 th:text="${post.title}"></h1>
     <p th:text="${post.content}"></p>
+    <p>Image : </p>
+    <!-- 이미지가 있을 때에만 이미지 출력 -->
+    <img th:src="@{'/upload/' + ${post.imageURL}}" alt="Post Image" />
+
+    <!-- <img src="/upload/345602e1-ff6f-4783-8256-b421fa976235.PNG" alt="image test"/> -->
+
     <p>Liked by:</p>
     <ul>
         <!-- 좋아요를 누른 회원 목록 출력 -->
         <li th:each="member : ${likedMembers}" th:text="${member.memberName}"></li>
     </ul>
+
+    <h2>Comments</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Member Name</th>
+            <th>Comment</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="comment : ${comments}">
+            <td th:text="${comment.id}"></td>
+            <td th:text="${comment.memberName}"></td>
+            <td th:text="${comment.comment}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- 댓글 작성 폼 -->
+    <form th:action="@{|/laby/post/${post.id}/comment|}" method="post">
+        <input type="hidden" name="id" th:value="${post.id}" />
+        <textarea name="comment" rows="4" cols="50" placeholder="Write your comment here"></textarea><br />
+        <input type="submit" value="Add Comment" />
+    </form>
+</div>
+<div>
+    <p>Product Link:</p>
+    <a th:href="${post.link}" th:text="${post.link}"></a>
+</div>
+
     <!-- 포스트 정보가 있을 때 처리할 내용 -->
 </div>
 <div th:unless="${post != null}">

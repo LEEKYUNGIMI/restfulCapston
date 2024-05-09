@@ -26,6 +26,9 @@ public class MemberEntity {
     private String memberName;
 
     public static MemberEntity toMemberEntity(MemberDTO memberDTO){
+        if (memberDTO == null) {
+            return null;
+        }
         MemberEntity memberEntity = new MemberEntity();
         memberEntity.setId(memberDTO.getId());
         memberEntity.setMemberEmail(memberDTO.getMemberEmail());

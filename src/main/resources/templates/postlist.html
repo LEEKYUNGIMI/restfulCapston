@@ -4,36 +4,97 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Post List</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* 추가한 스타일 */
+        .post-box {
+            margin-bottom: 20px;
+            cursor: pointer; /* 커서 모양 변경 */
+        }
+        .dropdown {
+            display: inline-block;
+            margin-right: 10px; /* 드롭다운과 검색 바 사이 간격 조정 */
+        }
+    </style>
 </head>
 <body>
-<h2>Post List</h2>
-<table border="1">
-    <tr>
-        <th>Title</th>
-        <th>Content</th>
-        <th>Author</th>
-        <th>Created Date</th>
-    </tr>
-    <th:block th:each="post : ${postList}">
-        <tr>
-            <td th:text="${post.title}"></td>
-            <td th:text="${post.content}"></td>
-            <td th:if="${post.member != null}" th:text="${post.member.memberName}">Member Name</td>
-            <td th:unless="${post.member != null}">No member</td>
-            <td th:text="${post.localDateTime}"></td>
+<div class="container">
+    <h2>Post List</h2>
+    <br>
+    <div class="row">
+        <!-- 검색 바 및 드롭다운 -->
+        <div class="col-md-6">
+            <div class="dropdown">
+                <select class="form-control" id="filterSelect">
+                    <option value="user">User</option>
+                    <option value="keyword">Keyword</option>
+                </select>
+            </div>
+            <div class="form-group" style="display: inline-block;">
+                <input type="text" class="form-control" id="searchInput" placeholder="Search...">
+            </div>
+        </div>
+    </div>
 
+    <div class="row">
+        <!-- 각 포스트를 반복해서 표시 -->
+        <th:block th:each="post : ${postList}">
+            <div class="col-md-4 post-box">
+                <div class="card">
+                    <img th:src="@{'/upload/' + ${post.imageURL}}" alt="Post Image" class="card-img-top">
+                    <div class="card-body">
+                        <!-- 제목 클릭 시에만 이동 -->
+                        <h5 class="card-title" th:text="${post.title}" th:onclick="|location.href='/laby/post/' + ${post.id}|" th:style="'cursor: pointer;'"
+                            onmouseover="this.style.textDecoration='underline'; this.style.fontWeight='bold'; this.style.color='black';"
+                            onmouseout="this.style.textDecoration='none'; this.style.fontWeight='normal'; this.style.color='initial';">
+                        </h5>
+                        <p class="card-text-content" th:text="${post.content}"></p>
+                        <p class="card-text-member" th:if="${post.member != null}" th:text="${post.member.memberName}">Member Name</p>
+                        <p class="card-text-member" th:unless="${post.member != null}">No member</p>
+                        <p class="card-text-time" th:text="${post.localDateTime}"></p>
 
-            <td>
-                <form th:action="@{|/laby/post/${post.id}/like|}" method="post">
-                    <button type="submit">Like</button>
-                </form>
-                <!-- 눌린 좋아요 수 표시
-                <span th:text="${post.likeCount}"></span>-->
-            </td>
+                        <!-- 좋아요 버튼 -->
+                        <form th:action="@{|/laby/post/${post.id}/like|}" method="post">
+                            <button type="submit" class="btn btn-primary">Like</button>
+                        </form>
 
-            <td><a th:href="@{|/laby/post/${post.id}}">Details</a></td>
-        </tr>
-    </th:block>
-</table>
+                        <!-- 댓글 작성 폼 -->
+                        <form th:action="@{|/laby/post/${post.id}/comment|}" method="post" class="comment-form">
+                            <input type="hidden" name="postId" th:value="${post.id}"/>
+                            <textarea name="comment" class="form-control" rows="2" placeholder="Write a comment..."></textarea>
+                            <button type="submit" class="btn btn-primary mt-2">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </th:block>
+    </div>
+</div>
 </body>
+<script>
+    document.getElementById('searchInput').addEventListener('input', function () {
+        var filter = document.getElementById('filterSelect').value;
+        var keyword = this.value.trim().toLowerCase();
+
+        // 필터링 로직 구현
+        var posts = document.querySelectorAll('.post-box');
+        posts.forEach(function (post) {
+            var text;
+            if (filter === 'user') {
+                text = post.querySelector('.card-text-member').textContent.trim().toLowerCase();
+            } else {
+                var title = post.querySelector('.card-title').textContent.trim().toLowerCase();
+                var content = post.querySelector('.card-text-content').textContent.trim().toLowerCase();
+                text = title + ' ' + content; // title과 content를 합침
+            }
+
+            if (text.includes(keyword)) {
+                post.style.display = '';
+            } else {
+                post.style.display = 'none';
+            }
+        });
+    });
+</script>
 </html>

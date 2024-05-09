@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat</title>
+</head>
+<body>
+<h1>Chat Page</h1>
+<div id="chat-box">
+    <ul id="message-list">
+    </ul>
+    <input type="text" id="message-input" placeholder="Type your message...">
+    <button onclick="sendMessage()">Send</button>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/webjars/sockjs-client/1.1.5/sockjs.min.js"></script>
+<script src="/webjars/stomp-websocket/2.3.3/stomp.min.js"></script>
+<script th:inline="javascript">
+    var stompClient = null;
+
+    function connectToChat() {
+        var socket = new SockJS('/chat');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
+            console.log('Connected: ' + frame);
+            stompClient.subscribe('/topic/messages', function (response) {
+                showMessage(JSON.parse(response.body));
+            });
+        });
+    }
+
+    function showMessage(message) {
+        var messageList = $("#message-list");
+        messageList.append("<li><strong>" + message.sender + ":</strong> " + message.content + "</li>");
+    }
+
+    function sendMessage() {
+        var messageContent = $("#message-input").val();
+        stompClient.send("/app/laby/message", {}, messageContent); // 문자열 그대로 전송
+        $("#message-input").val("");
+    }
+
+    $(function () {
+        connectToChat();
+    });
+</script>
+</body>
+</html>

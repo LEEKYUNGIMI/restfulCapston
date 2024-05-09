@@ -75,4 +75,9 @@ public class HeartService {
             throw new EntityNotFoundException("Member or Post not found");
         }
     }
+    // 좋아요 삭제 메서드
+    @Transactional
+    public void removeLike(Long memberId , Long postId){
+        heartRepository.deleteByMemberIdAndPostId(memberId,postId);
+    }
 }

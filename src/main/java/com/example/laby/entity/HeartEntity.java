@@ -20,10 +20,12 @@ public class HeartEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
+    //@JoinColumn(name = "member_id", referencedColumnName = "id", insertable = false, updatable = false)
     private MemberEntity member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
+    //@JoinColumn(name = "post_id", referencedColumnName = "id", insertable = false, updatable = false)
     private PostEntity post;
 
 }

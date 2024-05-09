@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Post</title>
+</head>
+<body>
+<h2>Edit Post</h2>
+<form th:action="@{'/laby/post/edit/' + ${post.id}}" method="post" enctype="multipart/form-data">
+    <label for="title">Title:</label><br>
+    <input type="text" id="title" th:field="${post.title}" /><br>
+    <label for="content">Content:</label><br>
+    <textarea id="content" rows="4" cols="50" th:field="${post.content}"></textarea><br>
+    <label for="image">Image:</label><br>
+    <input type="file" multiple="multiple" id="image" name="image"><br><br>
+    <input type="submit" value="Save" />
+</form>
+</body>
+</html>

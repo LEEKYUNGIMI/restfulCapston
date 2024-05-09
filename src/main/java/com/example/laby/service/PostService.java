@@ -52,4 +52,17 @@ public class PostService {
     public void deleteById(Long id){
         postRepository.deleteById(id);
     }
+
+    public List<PostDTO> findPostsByMemberId(Long memberId){
+        List<PostEntity> postEntityList = postRepository.findByMemberId(memberId);
+        List<PostDTO> postDTOList = new ArrayList<>();
+
+        for (PostEntity postEntity : postEntityList){
+            postDTOList.add(PostDTO.toPostDTO(postEntity));
+        }
+        return postDTOList;
+    }
+
+
+
 }

@@ -7,13 +7,15 @@
 </head>
 <body>
 <h2>Post Form</h2>
-<form action="/laby/post" method="post">
+<form action="/laby/post" method="post" enctype="multipart/form-data">
     <label for="title">Title:</label><br>
     <input type="text" id="title" name="title" required><br>
     <label for="content">Content:</label><br>
     <textarea id="content" name="content" required></textarea><br><br>
     <label for="image">Image:</label><br>
     <input type="file" multiple="multiple" id="image" name="image"><br><br>
+    <label for="link">Product Link:</label><br>
+    <input type="text" id="link" name="link"><br><br> <!-- 상품 링크 입력란 추가 -->
     <input type="submit" value="Submit">
 </form>
 </body>
